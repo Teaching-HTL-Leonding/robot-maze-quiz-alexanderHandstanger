@@ -1,4 +1,5 @@
 ﻿using Maze.Library;
+using System;
 
 namespace Maze.Solver
 {
@@ -37,10 +38,21 @@ namespace Maze.Solver
             var reachedEnd = false;
             robot.ReachedExit += (_, __) => reachedEnd = true;
 
-            while (!reachedEnd)
+            Random rdn = new Random();
+            bool noEnd = false;
+            int moves = 0;
+            while (!reachedEnd && !noEnd)
             {
-                robot.Move(Direction.Right);
+                robot.TryMove((Direction)rdn.Next(0, 4));
+
+                moves++;
+                if(moves == 1000000000)
+                {
+                    robot.HaltAndCatchFire();
+                    break;
+                }
             }
+
         }
     }
 }
